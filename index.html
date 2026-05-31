@@ -4,232 +4,137 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>To-Do List</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #d1a0bd 0%, #764ba2 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 40px 16px;
-    }
-
-    .container {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-      width: 100%;
-      max-width: 520px;
-      overflow: hidden;
-    }
-
-    .header {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: #fff;
-      padding: 28px 28px 20px;
-    }
-
-    .header h1 {
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .header .stats {
-      font-size: 0.9rem;
-      opacity: 0.85;
-    }
-
-    .input-area {
-      padding: 20px 28px;
-      border-bottom: 1px solid #f0f0f0;
-      display: flex;
-      gap: 10px;
-    }
-
-    .input-area input {
-      flex: 1;
-      padding: 12px 16px;
-      border: 2px solid #e0e0e0;
-      border-radius: 10px;
-      font-size: 0.95rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .input-area input:focus {
-      border-color: #0f121f;
-    }
-
-    .btn-add {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      padding: 12px 20px;
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.1s;
-    }
-
-    .btn-add:hover { opacity: 0.9; }
-    .btn-add:active { transform: scale(0.96); }
-
-    .filters {
-      display: flex;
-      gap: 6px;
-      padding: 14px 28px;
-      border-bottom: 1px solid #f0f0f0;
-    }
-
-    .filter-btn {
-      padding: 6px 16px;
-      border: 2px solid #e0e0e0;
-      border-radius: 20px;
-      background: transparent;
-      font-size: 0.85rem;
-      cursor: pointer;
-      color: #666;
-      transition: all 0.2s;
-    }
-
-    .filter-btn.active {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      border-color: transparent;
-      color: #fff;
-    }
-
-    .task-list {
-      padding: 12px 0;
-      min-height: 80px;
-    }
-
-    .task-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 28px;
-      transition: background 0.15s;
-    }
-
-    .task-item:hover { background: #fafafa; }
-
-    .task-item input[type="checkbox"] {
-      width: 20px;
-      height: 20px;
-      accent-color: #667eea;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-
-    .task-text {
-      flex: 1;
-      font-size: 0.95rem;
-      color: #333;
-      word-break: break-word;
-      outline: none;
-      background: transparent;
-      border: none;
-      font-family: inherit;
-      cursor: text;
-    }
-
-    .task-text.done {
-      text-decoration: line-through;
-      color: #aaa;
-    }
-
-    .btn-delete {
-      background: none;
-      border: none;
-      color: #ccc;
-      font-size: 1.1rem;
-      cursor: pointer;
-      padding: 4px 8px;
-      border-radius: 6px;
-      transition: color 0.2s, background 0.2s;
-      flex-shrink: 0;
-    }
-
-    .btn-delete:hover {
-      color: #e53e3e;
-      background: #fff0f0;
-    }
-
-    .empty-state {
-      text-align: center;
-      padding: 40px 28px;
-      color: #bbb;
-      font-size: 0.95rem;
-    }
-
-    .empty-state .icon { font-size: 2.5rem; margin-bottom: 10px; }
-
-    .footer {
-      padding: 14px 28px;
-      border-top: 1px solid #f0f0f0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .footer span { font-size: 0.82rem; color: #999; }
-
-    .btn-clear {
-      background: none;
-      border: none;
-      color: #e53e3e;
-      font-size: 0.82rem;
-      cursor: pointer;
-      padding: 4px 8px;
-      border-radius: 6px;
-      transition: background 0.2s;
-    }
-
-    .btn-clear:hover { background: #fff0f0; }
-
-    @media (max-width: 480px) {
-      .header h1 { font-size: 1.4rem; }
-      .input-area, .task-item, .filters, .footer { padding-left: 16px; padding-right: 16px; }
-    }
-  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Segoe UI"', 'system-ui', 'sans-serif'],
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.5s ease-out forwards',
+            'fade-in-up': 'fadeInUp 0.4s ease-out forwards',
+            'slide-in': 'slideIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+            'slide-out': 'slideOut 0.28s ease-in forwards',
+            'scale-in': 'scaleIn 0.25s ease-out forwards',
+            'bounce-soft': 'bounceSoft 2s ease-in-out infinite',
+            'gradient-shift': 'gradientShift 8s ease infinite',
+            'pulse-ring': 'pulseRing 0.5s ease-out',
+            'check-pop': 'checkPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(12px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            slideIn: {
+              '0%': { opacity: '0', transform: 'translateX(-16px)' },
+              '100%': { opacity: '1', transform: 'translateX(0)' },
+            },
+            slideOut: {
+              '0%': { opacity: '1', transform: 'translateX(0)', maxHeight: '80px' },
+              '100%': { opacity: '0', transform: 'translateX(24px)', maxHeight: '0', padding: '0', margin: '0' },
+            },
+            scaleIn: {
+              '0%': { opacity: '0', transform: 'scale(0.92)' },
+              '100%': { opacity: '1', transform: 'scale(1)' },
+            },
+            bounceSoft: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-6px)' },
+            },
+            gradientShift: {
+              '0%, 100%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+            },
+            pulseRing: {
+              '0%': { boxShadow: '0 0 0 0 rgba(102, 126, 234, 0.5)' },
+              '100%': { boxShadow: '0 0 0 12px rgba(102, 126, 234, 0)' },
+            },
+            checkPop: {
+              '0%': { transform: 'scale(1)' },
+              '50%': { transform: 'scale(1.2)' },
+              '100%': { transform: 'scale(1)' },
+            },
+          },
+        },
+      },
+    };
+  </script>
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>📝 To-Do List</h1>
-      <div class="stats" id="stats">0 งานทั้งหมด</div>
+<body class="min-h-screen flex items-start justify-center px-4 py-10 font-sans bg-[length:200%_200%] bg-gradient-to-br from-violet-300 via-purple-400 to-indigo-600 animate-gradient-shift">
+
+  <div class="w-full max-w-lg opacity-0 animate-fade-in-up shadow-2xl shadow-purple-900/25 rounded-2xl overflow-hidden bg-white/95 backdrop-blur-sm">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-7 py-7 animate-fade-in">
+      <h1 class="text-2xl sm:text-3xl font-bold tracking-tight mb-1 transition-transform duration-300 hover:scale-[1.02] origin-left">
+        📝 To-Do List
+      </h1>
+      <p id="stats" class="text-sm text-white/85 transition-all duration-300">0 งานทั้งหมด</p>
+    </header>
+
+    <!-- Input -->
+    <div class="flex gap-2.5 px-7 py-5 border-b border-gray-100">
+      <input
+        type="text"
+        id="taskInput"
+        placeholder="เพิ่มงานใหม่..."
+        maxlength="200"
+        class="flex-1 px-4 py-3 text-[0.95rem] border-2 border-gray-200 rounded-xl outline-none transition-all duration-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/20 focus:scale-[1.01]"
+      >
+      <button
+        type="button"
+        onclick="addTask()"
+        title="เพิ่ม"
+        class="px-5 py-3 text-xl font-medium text-white bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl shadow-md shadow-indigo-500/30 transition-all duration-200 hover:opacity-90 hover:shadow-lg hover:shadow-indigo-500/40 hover:-translate-y-0.5 active:scale-95 active:translate-y-0"
+      >+</button>
     </div>
 
-    <div class="input-area">
-      <input type="text" id="taskInput" placeholder="เพิ่มงานใหม่..." maxlength="200">
-      <button class="btn-add" onclick="addTask()" title="เพิ่ม">+</button>
+    <!-- Filters -->
+    <div class="flex flex-wrap gap-2 px-7 py-3.5 border-b border-gray-100" id="filterBar">
+      <button type="button" data-filter="all" onclick="setFilter('all', this)"
+        class="filter-btn px-4 py-1.5 text-sm rounded-full border-2 border-gray-200 text-gray-600 transition-all duration-300 hover:border-indigo-300 hover:text-indigo-600 active:scale-95 bg-gradient-to-r from-indigo-500 to-purple-600 border-transparent text-white shadow-sm">
+        ทั้งหมด
+      </button>
+      <button type="button" data-filter="active" onclick="setFilter('active', this)"
+        class="filter-btn px-4 py-1.5 text-sm rounded-full border-2 border-gray-200 text-gray-600 transition-all duration-300 hover:border-indigo-300 hover:text-indigo-600 active:scale-95">
+        ยังไม่เสร็จ
+      </button>
+      <button type="button" data-filter="done" onclick="setFilter('done', this)"
+        class="filter-btn px-4 py-1.5 text-sm rounded-full border-2 border-gray-200 text-gray-600 transition-all duration-300 hover:border-indigo-300 hover:text-indigo-600 active:scale-95">
+        เสร็จแล้ว
+      </button>
     </div>
 
-    <div class="filters">
-      <button class="filter-btn active" onclick="setFilter('all', this)">ทั้งหมด</button>
-      <button class="filter-btn" onclick="setFilter('active', this)">ยังไม่เสร็จ</button>
-      <button class="filter-btn" onclick="setFilter('done', this)">เสร็จแล้ว</button>
-    </div>
+    <!-- Task list -->
+    <div class="min-h-[80px] py-2" id="taskList"></div>
 
-    <div class="task-list" id="taskList"></div>
-
-    <div class="footer">
-      <span id="footerCount"></span>
-      <button class="btn-clear" onclick="clearDone()">ลบงานที่เสร็จแล้ว</button>
-    </div>
+    <!-- Footer -->
+    <footer class="flex justify-between items-center px-7 py-3.5 border-t border-gray-100">
+      <span id="footerCount" class="text-xs text-gray-400 transition-opacity duration-300"></span>
+      <button
+        type="button"
+        onclick="clearDone()"
+        class="text-xs text-red-500 px-2 py-1 rounded-md transition-all duration-200 hover:bg-red-50 hover:scale-105 active:scale-95"
+      >ลบงานที่เสร็จแล้ว</button>
+    </footer>
   </div>
 
   <script>
     let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
     let filter = 'all';
+    let lastAddedId = null;
+
+    const FILTER_ACTIVE =
+      'bg-gradient-to-r from-indigo-500 to-purple-600 border-transparent text-white shadow-sm scale-105';
+    const FILTER_INACTIVE =
+      'border-gray-200 text-gray-600 bg-transparent shadow-none scale-100';
 
     function save() {
       localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -238,21 +143,40 @@
     function addTask() {
       const input = document.getElementById('taskInput');
       const text = input.value.trim();
-      if (!text) return;
-      tasks.unshift({ id: Date.now(), text, done: false });
+      if (!text) {
+        input.classList.add('animate-pulse-ring');
+        setTimeout(() => input.classList.remove('animate-pulse-ring'), 500);
+        return;
+      }
+      const id = Date.now();
+      lastAddedId = id;
+      tasks.unshift({ id, text, done: false });
       input.value = '';
       save();
       render();
+      input.focus();
     }
 
-    function toggleTask(id) {
+    function toggleTask(id, checkbox) {
       const t = tasks.find(t => t.id === id);
       if (t) t.done = !t.done;
+      checkbox.classList.add('animate-check-pop');
+      setTimeout(() => checkbox.classList.remove('animate-check-pop'), 350);
       save();
       render();
     }
 
     function deleteTask(id) {
+      const el = document.getElementById(`item-${id}`);
+      if (el) {
+        el.classList.add('animate-slide-out', 'overflow-hidden');
+        el.addEventListener('animationend', () => {
+          tasks = tasks.filter(t => t.id !== id);
+          save();
+          render();
+        }, { once: true });
+        return;
+      }
       tasks = tasks.filter(t => t.id !== id);
       save();
       render();
@@ -266,15 +190,37 @@
 
     function setFilter(f, btn) {
       filter = f;
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      document.querySelectorAll('.filter-btn').forEach(b => {
+        b.className =
+          'filter-btn px-4 py-1.5 text-sm rounded-full border-2 transition-all duration-300 hover:border-indigo-300 hover:text-indigo-600 active:scale-95 ' +
+          FILTER_INACTIVE;
+      });
+      btn.className =
+        'filter-btn px-4 py-1.5 text-sm rounded-full border-2 transition-all duration-300 hover:border-indigo-300 active:scale-95 ' +
+        FILTER_ACTIVE;
       render();
     }
 
     function clearDone() {
-      tasks = tasks.filter(t => !t.done);
-      save();
-      render();
+      const doneItems = document.querySelectorAll('.task-item[data-done="true"]');
+      if (doneItems.length === 0) {
+        tasks = tasks.filter(t => !t.done);
+        save();
+        render();
+        return;
+      }
+      let remaining = doneItems.length;
+      doneItems.forEach(el => {
+        el.classList.add('animate-slide-out', 'overflow-hidden');
+        el.addEventListener('animationend', () => {
+          remaining -= 1;
+          if (remaining === 0) {
+            tasks = tasks.filter(t => !t.done);
+            save();
+            render();
+          }
+        }, { once: true });
+      });
     }
 
     function render() {
@@ -293,22 +239,48 @@
 
       if (filtered.length === 0) {
         const msg = filter === 'done' ? 'ยังไม่มีงานที่เสร็จ' : 'ไม่มีงาน — เพิ่มงานใหม่ได้เลย!';
-        list.innerHTML = `<div class="empty-state"><div class="icon">✅</div>${msg}</div>`;
+        list.innerHTML = `
+          <div class="text-center py-10 px-7 text-gray-300 animate-fade-in">
+            <div class="text-4xl mb-3 animate-bounce-soft">✅</div>
+            <p class="text-[0.95rem]">${msg}</p>
+          </div>`;
+        lastAddedId = null;
         return;
       }
 
-      list.innerHTML = filtered.map(t => `
-        <div class="task-item" id="item-${t.id}">
-          <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${t.id})">
+      list.innerHTML = filtered.map((t, i) => {
+        const isNew = t.id === lastAddedId;
+        const anim = isNew ? 'animate-slide-in' : 'opacity-0 animate-fade-in-up';
+        const delay = isNew ? '' : ` style="animation-delay: ${Math.min(i * 50, 300)}ms"`;
+        return `
+        <div
+          class="task-item group flex items-center gap-3 px-7 py-3 transition-colors duration-200 hover:bg-gray-50/80 ${anim}"
+          id="item-${t.id}"
+          data-done="${t.done}"
+          ${delay}
+        >
+          <input
+            type="checkbox"
+            ${t.done ? 'checked' : ''}
+            onchange="toggleTask(${t.id}, this)"
+            class="w-5 h-5 shrink-0 accent-indigo-500 cursor-pointer transition-transform duration-200 hover:scale-110"
+          >
           <span
-            class="task-text${t.done ? ' done' : ''}"
+            class="task-text flex-1 text-[0.95rem] break-words outline-none bg-transparent border-none font-inherit cursor-text transition-all duration-300 ${t.done ? 'line-through text-gray-400' : 'text-gray-700'}"
             contenteditable="true"
             onblur="editTask(${t.id}, this.textContent)"
             onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
           >${escHtml(t.text)}</span>
-          <button class="btn-delete" onclick="deleteTask(${t.id})" title="ลบ">✕</button>
-        </div>
-      `).join('');
+          <button
+            type="button"
+            class="btn-delete shrink-0 text-gray-300 text-lg px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-all duration-200 hover:text-red-500 hover:bg-red-50 hover:scale-110 active:scale-95"
+            onclick="deleteTask(${t.id})"
+            title="ลบ"
+          >✕</button>
+        </div>`;
+      }).join('');
+
+      lastAddedId = null;
     }
 
     function escHtml(str) {
